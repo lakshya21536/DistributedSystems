@@ -1,0 +1,176 @@
+syntax = "proto3";
+
+service Market {
+    rpc RegisterSeller(RegisterSellerRequest) returns (RegisterSellerResponse);
+    rpc SellItem(SellItemRequest) returns (SellItemResponse);
+    rpc UpdateItem(UpdateItemRequest) returns (UpdateItemResponse);
+    rpc DeleteItem(DeleteItemRequest) returns (DeleteItemResponse);
+    rpc DisplaySellerItems(DisplaySellerItemsRequest) returns (DisplaySellerItemsResponse);
+    rpc SearchItem(SearchItemRequest) returns (SearchItemResponse);
+    rpc BuyItem(BuyItemRequest) returns (BuyItemResponse);
+    rpc AddToWishList(AddToWishListRequest) returns (AddToWishListResponse);
+    rpc RateItem(RateItemRequest) returns (RateItemResponse);
+    rpc NotifyClient(NotifyClientRequest) returns (NotifyClientResponse);
+    rpc GetItemRatings(GetItemRatingsRequest) returns (GetItemRatingsResponse);
+    rpc NotifySeller(NotifySellerRequest) returns (NotifySellerResponse);
+}
+
+service Seller {
+    rpc RecvNotification(RecvNotificationRequest) returns (RecvNotificationResponse);
+}
+service Client {
+    rpc RecieveNotification(RecieveNotificationRequest) returns (RecieveNotificationResponse);
+}
+message RecieveNotificationRequest {
+    Item item = 1;
+}
+
+message RecieveNotificationResponse {
+    string message = 1;
+}
+message RecvNotificationRequest {
+    Item item = 1;
+}
+
+message RecvNotificationResponse {
+    string message = 1;
+}
+message Item {
+    int32 id = 1;
+    string name = 2;
+    string category = 3;
+    int32 quantity = 4;
+    string description = 5;
+    string seller_address = 6;
+    double price = 7;
+    float average_rating = 8;
+}
+
+message NotifySellerRequest {
+    string seller_address = 1;
+}
+
+message NotifySellerResponse {
+    Item item = 1;
+    string message = 2;
+}
+message RegisterSellerRequest {
+    string address = 1;
+    string uuid = 2;
+}
+
+message RegisterSellerResponse {
+    string message = 1; //success-failed response
+}
+
+message SellItemRequest {
+    string name = 1;
+    string category = 2;
+    int32 quantity = 3;
+    string description = 4;
+    string seller_address = 5;
+    double price = 6;
+    string seller_uuid = 7;
+}
+
+message SellItemResponse {
+    string message = 1;
+    int32 item_id = 2;
+}
+
+message UpdateItemRequest {
+    int32 id = 1;
+    double price = 2;
+    int32 quantity = 3;
+    string seller_address = 4;
+    string seller_uuid = 5;
+}
+
+message UpdateItemResponse {
+    string message = 1;
+}
+
+message DeleteItemRequest {
+    int32 id = 1;
+    string seller_address = 2;
+    string seller_uuid = 3;
+}
+
+message DeleteItemResponse {
+    string message = 1;
+}
+
+message DisplaySellerItemsRequest {
+    string seller_address = 1;
+    string seller_uuid = 2;
+}
+
+message DisplaySellerItemsResponse {
+    string message = 1;
+    repeated Item items = 2;
+}
+
+message SearchItemRequest {
+    string name = 1;
+    string category = 2;
+}
+
+message SearchItemResponse {
+    repeated Item items = 1;
+}
+
+message BuyItemRequest {
+    int32 id = 1;
+    int32 quantity = 2;
+    string buyer_address = 3;
+}
+
+message BuyItemResponse {
+    string message = 1;
+}
+
+message AddToWishListRequest {
+    int32 id = 1;
+    string buyer_address = 2;
+}
+
+message AddToWishListResponse {
+    string message = 1;
+}
+
+message RateItemRequest {
+    int32 item_id = 1;
+    int32 rating = 2;
+    string buyer_address = 3;
+}
+
+message RateItemResponse {
+    string message = 1;
+}
+
+message NotifyClientRequest {
+    string role = 1;
+    Item item_info = 2;
+    string address = 3;
+}
+
+message NotifyClientResponse {
+    string message = 1;
+    Item item = 2;
+}
+
+message GetItemRatingsRequest {
+    int32 item_id = 1;
+}
+
+message GetItemRatingsResponse {
+    repeated float ratings = 1;
+}
+
+message NotifyOtherRequest{
+    Item item = 1;
+}
+
+message NotifyOtherResponse{
+    string message = 1;
+}
